@@ -1,6 +1,5 @@
 #!/bin/bash
 
-set -x
 set -e
 
 SECONDS=0
@@ -12,6 +11,9 @@ if ! kubectl get nodes >/dev/null 2>&1; then
   echo "cluster not found. Please run ./create-k3s-cluster.sh"
   exit 1
 fi
+
+./check-nfs-server.sh 
+exit
 
 echo ""
 echo "label and taint dpu nodes to make them explicitly dedicated to TMM"
