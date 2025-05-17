@@ -13,7 +13,7 @@ if ! kubectl get nodes >/dev/null 2>&1; then
 fi
 
 ./check-nfs-server.sh 
-exit
+./check-sriodp-pfnames.sh
 
 echo ""
 echo "label and taint dpu nodes to make them explicitly dedicated to TMM"
