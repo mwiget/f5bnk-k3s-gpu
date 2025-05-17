@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: alpine1
+  annotations:
+    k8s.v1.cni.cncf.io/networks: default/sf-p0
+spec:
+  nodeSelector:
+    kubernetes.io/hostname: dpu1
+  tolerations:
+  - key: dpu
+    operator: Equal
+    value: "true"
+    effect: NoSchedule
+  containers:
+  - image: alpine
+    command: ["sleep", "infinity"]
+    imagePullPolicy: IfNotPresent
+    name: alpine
+    securityContext:
+      privileged: true
+      runAsUser: 0
+    resources:
+        limits:
+          nvidia.com/bf3_p0_sf: "1"
+        requests:
+          nvidia.com/bf3_p0_sf: "1"
