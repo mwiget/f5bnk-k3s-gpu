@@ -17,6 +17,12 @@ sudo apt-get install -y curl ca-certificates make htop btop jq tmux mosh net-too
   pv doca-networking
 sudo apt autoremove -y
 
+# use newer version of mosh
+sudo add-apt-repository ppa:keithw/mosh-dev -y
+sudo apt update
+sudo apt list --upgradable
+sudo apt upgrade mosh -y
+
 echo ""
 echo "installing k9s ..."
 VERSION=$(curl -s https://api.github.com/repos/derailed/k9s/releases/latest | grep tag_name | cut -d '"' -f 4)
