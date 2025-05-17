@@ -6,6 +6,14 @@ GPU using k3s.
 ## Requirements
 
 - Server node with Bluefield-3 DPU installed
+- Adjust dpu interface names in resources/sriovdp-config.yaml (set to enp193.......)
+- Adjust sysctl fs.inotify limits to 
+```
+fs.inotify.max_user_watches = 1048576
+fs.inotify.max_user_instances = 1024
+fs.inotify.max_queued_events = 131072
+```
+
 - NFS server, used in resources/storageclass.yaml. Adjust file accordingly
 
 Example /etc/exports flags
@@ -14,7 +22,6 @@ Example /etc/exports flags
 /share  *(rw,sync,no_subtree_check,no_root_squash)
 ```
 
-- Adjust dpu interface names in resources/sriovdp-config.yaml (set to enp193.......)
 
 
 ## Scripts to deploy from scratch
