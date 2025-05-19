@@ -21,6 +21,10 @@ kubectl label node dpu1 app=f5-tmm || true
 kubectl taint node dpu1 dpu=true:NoSchedule || true
 
 echo ""
+echo "annotate node (might need adjustment based on the node rome1 ip address) ... " 
+kubectl annotate --overwrite node rome1 'k8s.ovn.org/node-primary-ifaddr={"ipv4":"192.168.68.62"}'
+
+echo ""
 echo "Create network-attachment-definitions ..."
 kubectl apply -f resources/nad-sf.yaml
 

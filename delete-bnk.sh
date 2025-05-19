@@ -37,8 +37,6 @@ for d in f5-dssm-db f5-dssm-sentinel; do
   kubectl get -n f5-utils statefulset $d -o yaml | kubectl delete -f- || true
 done
 
-kubectl delete -f resources/nginx-red-deployment.yaml || true
-kubectl delete -f resources/nginx-red-gw-api.yaml || true
 kubectl delete -f resources/bnk-global-context.yaml || true
 kubectl delete -f resources/bnk-logging.yaml || true
 kubectl delete -f resources/vlans.yaml || true
