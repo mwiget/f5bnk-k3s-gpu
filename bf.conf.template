@@ -75,7 +75,7 @@ EOFSF
     #    Also include the virtual functions that are going to be created on host.
     #    These vfs may not exist yet.
     sed -i -E "s|^(OVS_BRIDGE1_PORTS=\")(.*)\"|\1\2 en3f0pf0sf1\"|" /mnt/etc/mellanox/mlnx-ovs.conf
-    sed -i -E "s|^(OVS_BRIDGE2_PORTS=\")(.*)\"|\1\2 en3f1pf1sf1 pf1vf0\"|" /mnt/etc/mellanox/mlnx-ovs.conf
+    sed -i -E "s|^(OVS_BRIDGE2_PORTS=\")(.*)\"|\1\2 en3f1pf1sf1\"|" /mnt/etc/mellanox/mlnx-ovs.conf
 
     # Cloud-init for upgrading containerd and runc
     cat << EOFCLOUDINIT >> /mnt/var/lib/cloud/seed/nocloud-net/user-data
