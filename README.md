@@ -30,3 +30,9 @@ Example /etc/exports flags
 
 - [delete-bnk.sh](delete-bnk.sh) delete bnk from k3s cluster
 - [destroy-k3s-cluster.sh](destroy-k3s-cluster.sh) destroys k3s cluster
+
+## Resources
+
+https://clouddocs.f5.com/bigip-next-for-kubernetes/2.0.0-GA/
+
+
