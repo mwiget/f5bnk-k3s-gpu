@@ -48,6 +48,7 @@ metadata:
   name: l4-tcp-nginx-app
   namespace: red
 spec:
+  protocol: TCP
   parentRefs:
   - name: f5-l4-gateway
     sectionName: l4-nginx-tcp
