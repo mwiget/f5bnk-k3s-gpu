@@ -23,6 +23,13 @@ set +x
 echo ""
 
 echo ""
+echo "Test with curl from client $client using invalid host ..."
+echo ""
+set -x
+ssh $client curl -Is -H "broken.example.com" http://198.19.19.100 || true
+set +x
+
+echo ""
 echo "Test with curl from client $client ..."
 echo ""
 set -x
