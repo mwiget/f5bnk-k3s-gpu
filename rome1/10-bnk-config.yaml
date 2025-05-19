@@ -1,0 +1,21 @@
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    # external
+    enp193s0f0np0:
+      virtual-function-count: 8
+      dhcp4: no
+      dhcp6: no
+      addresses:
+        - 192.0.2.62/24
+    # internal
+    enp193s0f1np1:
+      dhcp4: no
+        #      virtual-function-count: 16
+        #    enp193s0f1v0:
+        #      link: enp193s0f1np1
+      dhcp4: no
+      dhcp6: no
+      addresses:
+        - 198.18.100.62/24

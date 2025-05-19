@@ -30,6 +30,7 @@ Example /etc/exports flags
 
 - [delete-bnk.sh](delete-bnk.sh) delete bnk from k3s cluster
 - [destroy-k3s-cluster.sh](destroy-k3s-cluster.sh) destroys k3s cluster
+- [rome1](rome1/) folder holds some system files of the host with the dpu
 
 ## Resources
 
