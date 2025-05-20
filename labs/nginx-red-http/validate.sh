@@ -35,3 +35,7 @@ echo ""
 set -x
 ssh $client curl -Is -H "http.example.com" http://198.19.19.100
 set +x
+
+echo ""
+echo "Downloading 512kb payload from $ip ..."
+ssh $client "curl -s -w \"\nTime: %{time_total}s\nSpeed: %{speed_download} bytes/s\n\" -o /dev/null http://198.19.19.100/test/512kb"

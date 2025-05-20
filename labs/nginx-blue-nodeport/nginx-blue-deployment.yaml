@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx-deployment
-  namespace: red
+  namespace: blue
   labels:
     app: nginx-tcp
 spec:
@@ -36,15 +36,3 @@ spec:
         volumeMounts:
         - name: testfile-dir
           mountPath: /usr/share/nginx/html/test
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: nginx-app-svc
-  namespace: red
-spec:
-  ports:
-  - port: 80
-    targetPort: 80
-  selector:
-    app: nginx-tcp
