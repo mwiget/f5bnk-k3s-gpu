@@ -1,33 +1,33 @@
 
+NAME            READY   MESSAGE                                AGE
+f5-bnkgateway   True    CR config sent to all grpc endpoints   71s
+NAME               CONTROLLER                         ACCEPTED   AGE
+f5-gateway-class   f5.com/default-f5-cne-controller   True       71s
+NAME            CLASS              ADDRESS        PROGRAMMED   AGE
+f5-l4-gateway   f5-gateway-class   198.19.19.50   True         71s
+NAME               AGE
+l4-tcp-nginx-app   71s
+
+
 extract assigned IP address from f5-l4-gateway ... 198.19.19.50
 
 /home/mwiget/f5bnk-k3s-gpu/labs/nginx-red-tcp
 
 Test reachability to virtual server 198.19.19.50 from lake1 ...
 PING 198.19.19.50 (198.19.19.50) 56(84) bytes of data.
-64 bytes from 198.19.19.50: icmp_seq=1 ttl=255 time=65.8 ms
-64 bytes from 198.19.19.50: icmp_seq=2 ttl=255 time=2.03 ms
-64 bytes from 198.19.19.50: icmp_seq=3 ttl=255 time=1.88 ms
+64 bytes from 198.19.19.50: icmp_seq=1 ttl=255 time=53.3 ms
+64 bytes from 198.19.19.50: icmp_seq=2 ttl=255 time=1.96 ms
+64 bytes from 198.19.19.50: icmp_seq=3 ttl=255 time=2.09 ms
 
 --- 198.19.19.50 ping statistics ---
-3 packets transmitted, 3 received, 0% packet loss, time 2003ms
-rtt min/avg/max/mdev = 1.878/23.244/65.822/30.107 ms
-
-NAME            READY   MESSAGE                                AGE
-f5-bnkgateway   True    CR config sent to all grpc endpoints   102s
-NAME               CONTROLLER                         ACCEPTED   AGE
-f5-gateway-class   f5.com/default-f5-cne-controller   True       8m26s
-NAME            CLASS              ADDRESS        PROGRAMMED   AGE
-f5-l4-gateway   f5-gateway-class   198.19.19.50   True         8m26s
-NAME               AGE
-l4-tcp-nginx-app   8m26s
-
+3 packets transmitted, 3 received, 0% packet loss, time 2001ms
+rtt min/avg/max/mdev = 1.957/19.105/53.272/24.159 ms
 
 Test with curl from client lake1 ...
 
 HTTP/1.1 200 OK
 Server: nginx/1.27.5
-Date: Mon, 19 May 2025 10:40:34 GMT
+Date: Tue, 20 May 2025 03:55:19 GMT
 Content-Type: text/html
 Content-Length: 615
 Last-Modified: Wed, 16 Apr 2025 12:01:11 GMT
@@ -35,3 +35,8 @@ Connection: keep-alive
 ETag: "67ff9c07-267"
 Accept-Ranges: bytes
 
+
+Downloading 512kb payload from 198.19.19.50 ...
+
+Time: 0.007161s
+Speed: 73214355 bytes/s
