@@ -49,6 +49,7 @@ metadata:
   namespace: red
 spec:
   protocol: TCP
+  pvaAccelerationMode: full/assisted
   parentRefs:
   - name: f5-l4-gateway
     sectionName: l4-nginx-tcp
