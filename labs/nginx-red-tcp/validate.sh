@@ -10,6 +10,7 @@ kubectl get f5-bnkgateways
 kubectl get gatewayclass f5-gateway-class
 kubectl get gateway -n red f5-l4-gateway
 kubectl get l4route -n red
+kubectl get services -n red
 set +x
 echo ""
 
