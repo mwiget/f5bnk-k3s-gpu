@@ -88,7 +88,7 @@ helm install prometheus prometheus-community/kube-prometheus-stack \
 
 kubectl wait --for=condition=Ready pods --all -n monitoring
 
-kubectl apply -f resources/grafana-service.yaml
+kubectl apply -f resources/grafana-service.yaml -n monitoring
 
 echo ""
 PWD=$(kubectl --namespace monitoring get secrets prometheus-grafana -o jsonpath="{.data.admin-password}" | base64 -d ; echo)
