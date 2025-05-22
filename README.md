@@ -25,6 +25,7 @@ Example /etc/exports flags
 - [create-k3s-cluster.sh](create-k3s-cluster.sh) creates k3s on the local host with Calico CNI, Multus, GPU operator etc
 - [add-dpu1-node.sh](add-dpu1-node.sh) adds dpu node to k3s cluster
 - [deploy-bnk.sh](deploy-bnk.sh) deploys bnk on k3s cluster
+- [deploy-bnk-nodpu.sh](deploy-bnk-nodpu.sh) deploys bnk on single node k3s cluster without dpu (demo mode)
 - [monitoring-url.sh](monitoring-url.sh) checks prometheus & grafana health and reports default password with url
 
 ## Scripts to delete/destroy
