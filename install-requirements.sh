@@ -17,6 +17,8 @@ sudo apt-get install -y curl ca-certificates make htop btop jq tmux mosh net-too
   pv doca-networking
 sudo apt autoremove -y
 
+sudo update-pciids
+
 # use newer version of mosh
 sudo add-apt-repository ppa:keithw/mosh-dev -y
 sudo apt update
