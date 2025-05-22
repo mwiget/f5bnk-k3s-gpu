@@ -1,0 +1,45 @@
+apiVersion: "k8s.cni.cncf.io/v1"
+kind: NetworkAttachmentDefinition
+metadata:
+  name: sf-external
+spec:
+  config: '{
+    "type": "bridge",
+    "name": "sf-external",
+    "bridge": "br0",
+    "ipam": {
+      "type": "static",
+      "addresses": [
+        {
+          "address": "169.254.1.1/32",
+          "gateway": "169.254.1.1"
+        }
+      ],
+      "routes": []
+    },
+    "logLevel": "debug",
+    "logFile": "/var/log/sf/sf-external.log"
+  }'
+---
+apiVersion: "k8s.cni.cncf.io/v1"
+kind: NetworkAttachmentDefinition
+metadata:
+  name: sf-internal
+spec:
+  config: '{
+    "type": "bridge",
+    "name": "sf-internal",
+    "bridge": "br1",
+    "ipam": {
+      "type": "static",
+      "addresses": [
+        {
+          "address": "169.254.1.1/32",
+          "gateway": "169.254.1.1"
+        }
+      ],
+      "routes": []
+    },
+    "logLevel": "debug",
+    "logFile": "/var/log/sf/sf-internal.log"
+  }'
