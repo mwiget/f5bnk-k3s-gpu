@@ -183,7 +183,7 @@ for node in $(kubectl get nodes -o custom-columns=NAME:.metadata.name --no-heade
   kubectl annotate --overwrite node $node 'k8s.ovn.org/node-primary-ifaddr={"ipv4":"$IP"}'
 done
 
-sudo pkill sriovdp  # force reloa
+sudo pkill sriovdp  # force reload
 
 echo ""
 echo "Deployment completed in $SECONDS secs"
