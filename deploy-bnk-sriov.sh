@@ -180,7 +180,6 @@ kubectl apply -f resources/zebos-bgp-cm.yaml
 echo "label node to simulate dpu ..."
 for node in $(kubectl get nodes -o custom-columns=NAME:.metadata.name --no-headers); do
   kubectl label node $node pf0-mac="00_11" || true
-  kubectl annotate --overwrite node $node 'k8s.ovn.org/node-primary-ifaddr={"ipv4":"$IP"}'
 done
 
 sudo pkill sriovdp  # force reload
