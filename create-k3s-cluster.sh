@@ -55,7 +55,6 @@ kubectl apply -f resources/cni-plugins.yaml
 kubectl apply -f resources/sriovdp-config.yaml
 kubectl apply -f resources/sriov-cni-daemonset.yaml
 kubectl apply -f https://raw.github.com/k8snetworkplumbingwg/sriov-network-device-plugin/master/deployments/sriovdp-daemonset.yaml
-kubectl apply -f resources/nad-sf.yaml
 
 echo ""
 echo "deploy gpu operator (ignore dpu nodes)"
