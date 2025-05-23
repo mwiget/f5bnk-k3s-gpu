@@ -41,7 +41,7 @@ spec:
  
   advanced:
     demoMode:
-      enabled: true
+      enabled: false
     maintenanceMode:
       enabled: false
     pseudoCNI:
@@ -52,6 +52,8 @@ spec:
       env:
       - name: "TMM_CALICO_ROUTER"
         value: "default"
+      - name: "TMM_MAPRES_ADDL_VETHS_ON_DP"
+        value: "TRUE"
     #  - name: "TMM_LOG_LEVEL"
     #    value: "Debug" 
  

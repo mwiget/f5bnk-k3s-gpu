@@ -20,6 +20,7 @@ echo "label all nodes to make them deploy TMM"
 IP=$(ip route get 1 | awk '{print $7}')
 for node in $(kubectl get nodes -o custom-columns=NAME:.metadata.name --no-headers); do
   kubectl label node $node app=f5-tmm || true
+  kubectl label node $node pf0-mac="00_11" || true
   kubectl annotate --overwrite node $node 'k8s.ovn.org/node-primary-ifaddr={"ipv4":"$IP"}'
 done
 
