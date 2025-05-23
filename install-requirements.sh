@@ -26,6 +26,11 @@ sudo apt list --upgradable
 sudo apt upgrade mosh -y
 
 echo ""
+echo "installing mstflint to manage firmware"
+sudo apt install mstflint -y
+sudo systemctl enable --now mst
+
+echo ""
 echo "installing k9s ..."
 VERSION=$(curl -s https://api.github.com/repos/derailed/k9s/releases/latest | grep tag_name | cut -d '"' -f 4)
 curl -Lo k9s.tar.gz "https://github.com/derailed/k9s/releases/download/${VERSION}/k9s_Linux_amd64.tar.gz"
@@ -35,8 +40,9 @@ rm k9s.tar.gz
 
 echo ""
 echo "installing helm & kubectl ..."
-sudo snap install helm --classic
 sudo snap install kubectl --classic
+curl -sL https://get.helm.sh/helm-v3.17.3-linux-amd64.tar.gz | tar -xz --strip-components=1 linux-amd64/helm
+sudo mv helm /usr/local/bin/
 
 echo ""
 echo "launching rshim ..."

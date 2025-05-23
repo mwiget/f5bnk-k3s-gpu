@@ -25,8 +25,16 @@ for node in $(kubectl get nodes -o custom-columns=NAME:.metadata.name --no-heade
 done
 
 echo ""
-echo "Create network-attachment-definitions ..."
-kubectl apply -f resources/nad-nodpu.yaml
+echo "Create sriovdp-config for ConnectX-5 p0 and p1 ..."
+kubectl apply -f resources/sriovdp-cx5.yaml
+
+echo ""
+echo "Create network-attachment-definitions for VFS on p0 and p1  ..."
+kubectl apply -f resources/nad-vf.yaml
+
+echo ""
+echo "Deploy alpine1 pod, connected to p0 and p1 ..."
+kubectl apply -f resources/alpine-sriov-vf.yaml
 
 echo ""
 echo "Helm Registry Login ..."
@@ -142,7 +150,7 @@ kubectl get crd | grep gateway.networking.k8s.io
 
 echo ""
 echo "Install BIG-IP Next for Kubernetes ..."
-kubectl apply -f resources/bnkgatewayclass-nodpu-cr.yaml
+kubectl apply -f resources/bnkgatewayclass-nodpu-sriov-cr.yaml
 
 echo ""
 echo "waiting for pods ready in f5-utils ..."
