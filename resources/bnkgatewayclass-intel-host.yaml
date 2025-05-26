@@ -4,7 +4,7 @@ metadata:
   labels:
     app.kubernetes.io/name: f5-lifecycle-operator
     app.kubernetes.io/managed-by: kustomize
-  name: bnkgatewayclass-sample
+  name: bnkgatewayclass-intel-host
 spec:
   manifestVersion: "2.0.0-1.7.8-0.3.37"
   containerPlatform: Generic
@@ -15,33 +15,36 @@ spec:
       enabled: true
   certificate:
     clusterIssuer: bnk-ca-cluster-issuer
+  containerPlatform: Generic
   deploymentSize: "Small"
+  dynamicRouting:
+    enabled: true
+  firewallACL:
+    enabled: true
   image:
     repository: "repo.f5.com/images"
     imagePullSecrets:
     - name: far-secret
     imagePullPolicy: Always
   networkAttachments:
-  - sf-external
-  - sf-internal
+  - sriov-intel-p0
+  - sriov-intel-p1
      
   # Features
   # CSRC Egress
   pseudoCNI:
     enabled: true
   # BGP
-  dynamicRouting:
-    enabled: true
   # Core dump files
   coreCollection:
     enabled: true
-  # AFM
-  firewallACL:
-    enabled: true
  
   advanced:
+    cneController: {}
+    cwc: {}
     demoMode:
       enabled: false
+    firewallACL: {}
     maintenanceMode:
       enabled: false
     pseudoCNI:
@@ -52,15 +55,9 @@ spec:
       env:
       - name: "TMM_CALICO_ROUTER"
         value: "default"
-      - name: "TMM_MAPRES_ADDL_VETHS_ON_DP"
-        value: "TRUE"
-    #  - name: "TMM_LOG_LEVEL"
-    #    value: "Debug" 
- 
-    #firewallACL:
-    #  env:
-    #  -name: "LOG_LEVEL"
-    #   value: "info"
- 
-    #cwc:
-    #  env:
+      - name: "OPENSHIFT_VFIO_RESOURCE_1"
+        value: "intel_sriov_p0"
+      - name: "OPENSHIFT_VFIO_RESOURCE_2"
+        value: "intel_sriov_p1"
+      - name: "TMM_LOG_LEVEL"
+        value: "Debug" 

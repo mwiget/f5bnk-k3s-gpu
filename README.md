@@ -11,14 +11,16 @@ GPU using k3s.
 Example /etc/exports flags
 
 ```
-/share  *(rw,sync,no_subtree_check,no_root_squash)
+/share/bnk  *(rw,sync,no_subtree_check,no_root_squash)
 ```
 
 - Adjust dpu interface names in resources/sriovdp-config.yaml (set to enp193.......)
 
-Check out Makefile
+Check out Makefile on how various deployment can be installed.
 
 ## Check TMM drivers
+
+Example when using bluefield-3 TMM on dpu1 node:
 
 ```
 $ ./check-tmm-drivers.sh 
@@ -28,6 +30,22 @@ xeth0        sock,                sock            Yes
 0000:c1:00.7 mlxvf5, sock, dpdk,  dpdk            Yes          
 0000:c1:02.5 mlxvf5, sock, dpdk,  dpdk            Yes   
 ```
+
+Example when using TMM on host in demo mode via linux bridges:
+
+```
+$ ./check-tmm-drivers.sh 
++ kubectl exec -it ds/f5-tmm -c debug -- tmctl -d blade tmm/xnet/device_probed
+id    available_drivers driver_selected driver_in_use
+----- ----------------- --------------- -------------
+xeth0 sock,             sock            Yes          
+net1  sock,             sock            Yes          
+net2  sock,             sock            Yes          
+```
+
+## labs
+
+Folder labs contains a few example LB use cases
 
 ## Resources
 

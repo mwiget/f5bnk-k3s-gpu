@@ -4,8 +4,8 @@ metadata:
   name: alpine1
   annotations:
     k8s.v1.cni.cncf.io/networks: '[
-        { "name": "sriov-intel-p0" },
-        { "name": "sriov-intel-p1" }
+        { "name": "bridge-br0-p0" },
+        { "name": "bridge-br1-p1" }
       ]'
 spec:
   #  nodeSelector:
@@ -26,7 +26,3 @@ spec:
     securityContext:
       privileged: true
       runAsUser: 0
-    resources:
-        limits:
-          openshift.io/intel_sriov_p0: 1
-          openshift.io/intel_sriov_p1: 1

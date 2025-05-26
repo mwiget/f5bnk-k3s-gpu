@@ -62,6 +62,7 @@ kubectl apply -f resources/nad-sf.yaml
 kubectl apply -f resources/nad-bf3.yaml
 kubectl apply -f resources/nad-mlnx.yaml
 kubectl apply -f resources/nad-intel.yaml
+kubectl apply -f resources/nad-bridge.yaml
 
 echo ""
 echo "deploy gpu operator (ignore dpu nodes)"
