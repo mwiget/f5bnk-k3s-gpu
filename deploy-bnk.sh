@@ -110,4 +110,3 @@ echo ""
 
 echo ""
 echo "Deployment completed in $SECONDS secs."
-echo "Please run ./add-dpu1-node.sh and/or ./add-host-tmm.sh"

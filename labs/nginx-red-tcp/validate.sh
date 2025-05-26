@@ -26,6 +26,9 @@ ip=$(kubectl get gateway -n red f5-l4-gateway -o json | jq -r '.status.addresses
 ip r get $ip
 
 echo ""
+ip -br a show |grep enp |grep -v v
+
+echo ""
 echo "$PWD"
 echo ""
 echo "Test reachability to virtual server $ip from $client ..."
