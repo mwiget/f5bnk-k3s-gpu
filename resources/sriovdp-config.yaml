@@ -4,50 +4,140 @@ metadata:
   name: sriovdp-config
   namespace: kube-system
 data:
+  # Nvidia BlueField-3 DPU: nvidia.com/bf3_p0_sf
+  #
+  # sudo lspci -nn |grep -i bluefield
+  # 00:00.0 PCI bridge [0604]: Mellanox Technologies MT43244 BlueField-3 SoC Crypto enabled [15b3:a2da] (rev 01)
+  # 01:00.0 PCI bridge [0604]: Mellanox Technologies MT43244 Family [BlueField-3 SoC PCIe Bridge] [15b3:197b] (rev 01)
+  # 02:00.0 PCI bridge [0604]: Mellanox Technologies MT43244 Family [BlueField-3 SoC PCIe Bridge] [15b3:197b] (rev 01)
+  # 02:03.0 PCI bridge [0604]: Mellanox Technologies MT43244 Family [BlueField-3 SoC PCIe Bridge] [15b3:197b] (rev 01)
+  # 03:00.0 Ethernet controller [0200]: Mellanox Technologies MT43244 BlueField-3 integrated ConnectX-7 network controller [15b3:a2dc] (rev 01)
+  # 03:00.1 Ethernet controller [0200]: Mellanox Technologies MT43244 BlueField-3 integrated ConnectX-7 network controller [15b3:a2dc] (rev 01)
+  # 05:00.0 PCI bridge [0604]: Mellanox Technologies MT43244 Family [BlueField-3 SoC PCIe Bridge] [15b3:197b] (rev 01)
+  # 06:00.0 PCI bridge [0604]: Mellanox Technologies MT43244 Family [BlueField-3 SoC PCIe Bridge] [15b3:197b] (rev 01)
+  #
+  # Nvidia BlueField-3 Host: openshift.io/bf3_sriov_p0
+  #
+  # lspci -nn|grep -i bluefield
+  # c1:00.0 Ethernet controller [0200]: Mellanox Technologies MT43244 BlueField-3 integrated ConnectX-7 network controller [15b3:a2dc] (rev 01)
+  # c1:00.1 Ethernet controller [0200]: Mellanox Technologies MT43244 BlueField-3 integrated ConnectX-7 network controller [15b3:a2dc] (rev 01)
+  # c1:00.2 DMA controller [0801]: Mellanox Technologies MT43244 BlueField-3 SoC Management Interface [15b3:c2d5] (rev 01)
+  #
+  # Mellanox ConnextX-5: openshift.io/mlnx_sriov_p0
+  #
+  # sudo lspci -nn |grep Mellanox
+  # c1:00.0 Ethernet controller [0200]: Mellanox Technologies MT27800 Family [ConnectX-5] [15b3:1017]
+  # c1:00.1 Ethernet controller [0200]: Mellanox Technologies MT27800 Family [ConnectX-5] [15b3:1017]
+  # c1:00.2 Ethernet controller [0200]: Mellanox Technologies MT27800 Family [ConnectX-5 Virtual Function] [15b3:1018]
+  # c1:00.3 Ethernet controller [0200]: Mellanox Technologies MT27800 Family [ConnectX-5 Virtual Function] [15b3:1018]
+  #
+  # ip -br l | grep enp
+  # enp193s0f0np0    DOWN           04:3f:72:ad:05:12 <NO-CARRIER,BROADCAST,MULTICAST,UP>
+  # enp193s0f1np1    DOWN           04:3f:72:ad:05:13 <NO-CARRIER,BROADCAST,MULTICAST,UP>
+  # enp193s0f0v0     DOWN           3e:2d:f9:44:64:6f <BROADCAST,MULTICAST>
+  # enp193s0f0v1     DOWN           82:f4:06:60:76:26 <BROADCAST,MULTICAST>
+  #
+  # Intel E810-C: openshift.io/intel_sriov_p0 (missing driver in BNK TMM !!)
+  #
+  # sudo lspci -nn |grep Intel
+  # 81:00.0 Ethernet controller [0200]: Intel Corporation Ethernet Controller E810-C for QSFP [8086:1592] (rev 02)
+  # 81:00.1 Ethernet controller [0200]: Intel Corporation Ethernet Controller E810-C for QSFP [8086:1592] (rev 02)
+  # 81:01.0 Ethernet controller [0200]: Intel Corporation Ethernet Adaptive Virtual Function [8086:1889] (rev 02)
+  # 81:01.1 Ethernet controller [0200]: Intel Corporation Ethernet Adaptive Virtual Function [8086:1889] (rev 02)
+  #
+  # ip -br l | grep enp129
+  # enp129s0f0       UP             6c:fe:54:88:d8:50 <BROADCAST,MULTICAST,UP,LOWER_UP>
+  # enp129s0f1       UP             6c:fe:54:88:d8:51 <BROADCAST,MULTICAST,UP,LOWER_UP>
+  # enp129s0f1v1     DOWN           56:d6:29:71:36:33 <BROADCAST,MULTICAST>
+  # enp129s0f0v1     DOWN           8a:6c:a0:e0:8b:0f <BROADCAST,MULTICAST>
   config.json: |
     {
-      "resourceList": [
-        {
-          "resourceName": "bf3_p0_vf",
-          "resourcePrefix": "nvidia.com",
-           "selectors": {
-              "vendors": ["15b3"],
-              "devices": ["101e"],
-              "pfNames": ["enp193s0f0np0"]
+        "resourceList": [
+            {
+                "resourceName": "mlnx_sriov_p0",
+                "resourcePrefix": "openshift.io",
+                "selectors": {
+                    "vendors": ["15b3"],
+                    "devices": ["1018"],
+                    "drivers": ["mlx5_core"],
+                    "pfNames": ["enp193s0f0np0"],
+                    "isRdma": false
+                }
+            },
+            {
+                "resourceName": "mlnx_sriov_p1",
+                "resourcePrefix": "openshift.io",
+                "selectors": {
+                    "vendors": ["15b3"],
+                    "devices": ["1018"],
+                    "drivers": ["mlx5_core"],
+                    "pfNames": ["enp193s0f1np1"],
+                    "isRdma": false
+                }
+            },
+            {
+                "resourceName": "intel_sriov_p0",
+                "resourcePrefix": "openshift.io",
+                "selectors": {
+                    "vendors": ["8086"],
+                    "devices": ["1889"],
+                    "drivers": ["iavf"],
+                    "pfNames": ["enp129s0f0"],
+                    "isRdma": false
+                }
+            },
+            {
+                "resourceName": "intel_sriov_p1",
+                "resourcePrefix": "openshift.io",
+                "selectors": {
+                    "vendors": ["8086"],
+                    "devices": ["1889"],
+                    "drivers": ["iavf"],
+                    "pfNames": ["enp129s0f1"],
+                    "isRdma": false
+                }
+            },
+            {
+              "resourceName": "bf3_sriov_p0",
+              "resourcePrefix": "openshift.io",
+               "selectors": {
+                  "vendors": ["15b3"],
+                  "devices": ["101e"],
+                  "pfNames": ["enp193s0f0np0"]
+                }
+            },
+            {
+              "resourceName": "bf3_sriov_p1",
+              "resourcePrefix": "openshift.io",
+               "selectors": {
+                  "vendors": ["15b3"],
+                  "devices": ["101e"],
+                  "pfNames": ["enp193s0f1np1"]
+                }
+            },
+            {
+              "resourceName": "bf3_p0_sf",
+              "resourcePrefix": "nvidia.com",
+              "deviceType": "auxNetDevice",
+              "selectors": [{
+                "vendors": ["15b3"],
+                "devices": ["a2dc"],
+                "pciAddresses": ["0000:03:00.0"],
+                "pfNames": ["p0#1"],
+                "auxTypes": ["sf"]
+              }]
+            },
+            {
+              "resourceName": "bf3_p1_sf",
+              "resourcePrefix": "nvidia.com",
+              "deviceType": "auxNetDevice",
+              "selectors": [{
+                "vendors": ["15b3"],
+                "devices": ["a2dc"],
+                "pciAddresses": ["0000:03:00.1"],
+                "pfNames": ["p1#1"],
+                "auxTypes": ["sf"]
+                }]
             }
-        },
-        {
-          "resourceName": "bf3_p1_vf",
-          "resourcePrefix": "nvidia.com",
-           "selectors": {
-              "vendors": ["15b3"],
-              "devices": ["101e"],
-              "pfNames": ["enp193s0f1np1"]
-            }
-        },
-        {
-          "resourceName": "bf3_p0_sf",
-          "resourcePrefix": "nvidia.com",
-          "deviceType": "auxNetDevice",
-          "selectors": [{
-            "vendors": ["15b3"],
-            "devices": ["a2dc"],
-            "pciAddresses": ["0000:03:00.0"],
-            "pfNames": ["p0#1"],
-            "auxTypes": ["sf"]
-          }]
-        },
-        {
-          "resourceName": "bf3_p1_sf",
-          "resourcePrefix": "nvidia.com",
-          "deviceType": "auxNetDevice",
-          "selectors": [{
-            "vendors": ["15b3"],
-            "devices": ["a2dc"],
-            "pciAddresses": ["0000:03:00.1"],
-            "pfNames": ["p1#1"],
-            "auxTypes": ["sf"]
-            }]
-        }
-      ]
+        ]
     }

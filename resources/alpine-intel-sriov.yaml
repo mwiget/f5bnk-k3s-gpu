@@ -28,5 +28,5 @@ spec:
       runAsUser: 0
     resources:
         limits:
-          openshift.io/mlnx_sriov_p0: 1
-          openshift.io/mlnx_sriov_p1: 1
+          openshift.io/intel_sriov_p0: 1
+          openshift.io/intel_sriov_p1: 1

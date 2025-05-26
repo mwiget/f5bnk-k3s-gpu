@@ -1,14 +1,14 @@
 apiVersion: "k8s.cni.cncf.io/v1"
 kind: NetworkAttachmentDefinition
 metadata:
-  name: sriov-net-p0
+  name: sriov-mlnx-p0
   namespace: default
   annotations:
     k8s.v1.cni.cncf.io/resourceName: openshift.io/mlnx_sriov_p0
 spec:
   config: '{
     "cniVersion": "0.3.1",
-    "name": "sriov-net-p0",
+    "name": "sriov-mlnx-p0",
     "type": "sriov",
     "ipam": {
       "type": "static",
@@ -25,14 +25,14 @@ spec:
 apiVersion: "k8s.cni.cncf.io/v1"
 kind: NetworkAttachmentDefinition
 metadata:
-  name: sriov-net-p1
+  name: sriov-mlnx-p1
   namespace: default
   annotations:
     k8s.v1.cni.cncf.io/resourceName: openshift.io/mlnx_sriov_p1
 spec:
   config: '{
     "cniVersion": "0.3.1",
-    "name": "sriov-net-p1",
+    "name": "sriov-mlnx-p1",
     "type": "sriov",
     "ipam": {
       "type": "static",

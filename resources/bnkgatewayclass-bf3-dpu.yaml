@@ -4,7 +4,7 @@ metadata:
   labels:
     app.kubernetes.io/name: f5-lifecycle-operator
     app.kubernetes.io/managed-by: kustomize
-  name: bnkgatewayclass-sample
+  name: bnkgatewayclass-dpu
 spec:
   manifestVersion: "2.0.0-1.7.8-0.3.37"
   containerPlatform: Generic
@@ -52,8 +52,8 @@ spec:
       env:
       - name: "TMM_CALICO_ROUTER"
         value: "default"
-    #  - name: "TMM_LOG_LEVEL"
-    #    value: "Debug" 
+      - name: "TMM_LOG_LEVEL"
+        value: "Debug" 
  
     #firewallACL:
     #  env:

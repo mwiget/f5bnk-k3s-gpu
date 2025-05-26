@@ -57,6 +57,13 @@ kubectl apply -f resources/sriov-cni-daemonset.yaml
 kubectl apply -f https://raw.github.com/k8snetworkplumbingwg/sriov-network-device-plugin/master/deployments/sriovdp-daemonset.yaml
 
 echo ""
+echo "network-attachment-definitions ..."
+kubectl apply -f resources/nad-sf.yaml
+kubectl apply -f resources/nad-bf3.yaml
+kubectl apply -f resources/nad-mlnx.yaml
+kubectl apply -f resources/nad-intel.yaml
+
+echo ""
 echo "deploy gpu operator (ignore dpu nodes)"
 helm repo add nvidia https://helm.ngc.nvidia.com/nvidia \
     && helm repo update

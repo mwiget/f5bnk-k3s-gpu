@@ -2,8 +2,6 @@
 
 set -e
 
-client=lake1    # host with route to external BNK interface p0
-
 echo ""
 set -x
 kubectl get f5-bnkgateways
@@ -15,15 +13,23 @@ set +x
 echo ""
 
 echo ""
-echo -n "extract assigned IP address from f5-l4-gateway ... "
+cip=$(kubectl get svc -n red nginx-app-svc -o jsonpath='{.spec.clusterIP}')
+echo "Test nginx service via clusterIP $cip ..."
+until curl -Is http://$cip; do
+  echo "waiting 5 secs and try again ..."
+  sleep 5
+done
+
+echo ""
+echo "extract assigned IP address from f5-l4-gateway and check route ... "
 ip=$(kubectl get gateway -n red f5-l4-gateway -o json | jq -r '.status.addresses[] | select(.type == "IPAddress") | .value')
-echo $ip
+ip r get $ip
 
 echo ""
 echo "$PWD"
 echo ""
 echo "Test reachability to virtual server $ip from $client ..."
-until ssh $client ping -c3 $ip; do
+until ping -c3 $ip; do
   echo "waiting 10 secs and try again ..."
   sleep 10
 done
@@ -31,8 +37,8 @@ done
 echo ""
 echo "Test with curl from client $client ..."
 echo ""
-ssh $client curl -Is http://$ip
+curl -Is http://$ip
 
 echo ""
 echo "Downloading 512kb payload from $ip ..."
-ssh $client "curl -s -w \"\nTime: %{time_total}s\nSpeed: %{speed_download} bytes/s\n\" -o /dev/null http://198.19.19.50/test/512kb"
+curl -s -w "\nTime: %{time_total}s\nSpeed: %{speed_download} bytes/s\n" -o /dev/null http://198.19.19.50/test/512kb

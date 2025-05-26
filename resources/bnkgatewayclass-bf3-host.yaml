@@ -4,7 +4,7 @@ metadata:
   labels:
     app.kubernetes.io/name: f5-lifecycle-operator
     app.kubernetes.io/managed-by: kustomize
-  name: bnkgatewayclass-sample
+  name: bnkgatewayclass-bf3-host
 spec:
   manifestVersion: "2.0.0-1.7.8-0.3.37"
   containerPlatform: Generic
@@ -27,8 +27,8 @@ spec:
     - name: far-secret
     imagePullPolicy: Always
   networkAttachments:
-  - sriov-net-p0
-  - sriov-net-p1
+  - sriov-bf3-p0
+  - sriov-bf3-p1
      
   # Features
   # CSRC Egress
@@ -56,8 +56,8 @@ spec:
       - name: "TMM_CALICO_ROUTER"
         value: "default"
       - name: "OPENSHIFT_VFIO_RESOURCE_1"
-        value: "mlnx_sriov_p0"
+        value: "bf3_sriov_p0"
       - name: "OPENSHIFT_VFIO_RESOURCE_2"
-        value: "mlnx_sriov_p1"
-    #  - name: "TMM_LOG_LEVEL"
-    #    value: "Debug" 
+        value: "bf3_sriov_p1"
+      - name: "TMM_LOG_LEVEL"
+        value: "Debug" 

@@ -1,37 +1,15 @@
 #!/bin/bash
 
 set -e
-
 SECONDS=0
 
-test -e ~/far/f5-far-auth-key.tgz || (echo "Please download far-f5-auth-key.tz from myf5.com into ~/far/" && exit 1)
-test -e ~/.jwt || (echo "Please store your JWT token in ~/.jwt, required todeploy resources/bnk-infrastructure.yaml" && exit 1)
-
-if ! kubectl get nodes >/dev/null 2>&1; then
-  echo "cluster not found. Please run ./create-k3s-cluster.sh"
-  exit 1
-fi
-
-./check-nfs-server.sh 
-./check-sriodp-pfnames.sh
-
-echo ""
-echo "label and taint dpu nodes to make them explicitly dedicated to TMM"
-kubectl label node dpu1 app=f5-tmm || true
-kubectl taint node dpu1 dpu=true:NoSchedule || true
-
-echo ""
-echo "annotate node (might need adjustment based on the node rome1 ip address on p1) ... " 
-kubectl annotate --overwrite node rome1 'k8s.ovn.org/node-primary-ifaddr={"ipv4":"198.18.100.62"}'
-
-echo ""
-echo "Create network-attachment-definitions ..."
-kubectl apply -f resources/nad-sf.yaml
+./check-requirements.sh
 
 echo ""
 echo "Helm Registry Login ..."
 tar zxfO ~/far/f5-far-auth-key.tgz cne_pull_64.json | helm registry login -u _json_key_base64 --password-stdin https://repo.f5.com
 
+# not required, but leaving here commented out, just in case ...
 # echo ""
 # echo "Docker Registry Login ..."
 # tar zxfO ~/far/f5-far-auth-key.tgz cne_pull_64.json | docker login -u _json_key_base64 --password-stdin https://repo.f5.com
@@ -49,6 +27,7 @@ SERVICE_ACCOUNT_KEY=$(tar zxOf ~/far/f5-far-auth-key.tgz)
 # Create the SERVICE_ACCOUNT_K8S_SECRET variable by appending "_json_key_base64:" to the base64 encoded SERVICE_ACCOUNT_KEY
 SERVICE_ACCOUNT_K8S_SECRET=$(echo "_json_key_base64:${SERVICE_ACCOUNT_KEY}" | base64 -w 0)
 
+echo ""
 echo "Create the secret.yaml file with the provided content ..."
 cat << EOF > ~/far/far-secret.yaml
 ---
@@ -103,7 +82,7 @@ sleep 2
 kubectl get storageclass
 
 echo ""
-echo "Install FLO ..."
+echo "Install F5 Lifecycle Opertaor (FLO) ..."
 
 export JWT=$(cat ~/.jwt)
 envsubst < resources/flo-value.yaml >/tmp/flo-value.yaml
@@ -117,58 +96,18 @@ helm upgrade --install flo oci://repo.f5.com/charts/f5-lifecycle-operator --vers
 # cat f5-bnk-manifest*/bnk-manifest*yaml | grep f5-spk-crds-common -A 5
 
 echo ""
-echo "Install F5 common CRDs ..."
+echo "Install F5 common, service proxy, Gateway API ..."
 helm upgrade --install f5-spk-crds-common oci://repo.f5.com/charts/f5-spk-crds-common --version 8.7.4 -f resources/crd-values.yaml
-
-echo ""
-echo "InstallF5 service proxy CRDs ..."
 helm upgrade --install f5-spk-crds-service-proxy oci://repo.f5.com/charts/f5-spk-crds-service-proxy --version 8.7.4 -f resources/crd-values.yaml
-
-echo ""
-echo "Verify installed use case CRD helm charts and version ..."
-helm list |grep crds
-
-echo ""
-echo "List installed F5 use case CRDs ..."
-kubectl get crd | grep k8s.f5net.com
-
-echo ""
-echo "Install Gateway API CRDs ..."
 kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.2.0/experimental-install.yaml
 
 echo ""
-echo "List installed Gateway API CRDs ..."
-kubectl get crd | grep gateway.networking.k8s.io
+echo "List installed CRDs ..."
+kubectl get crd
 
 echo ""
-echo "Install BIG-IP Next for Kubernetes ..."
-kubectl apply -f resources/bnkgatewayclass-cr.yaml
+./get-allocatables.sh
 
 echo ""
-echo "waiting for pods ready in f5-utils ..."
-until kubectl wait --for=condition=Ready pods --all -n f5-utils; do
-  echo "Waiting for pods to become Ready..."
-  sleep 5
-done
-echo "All pods in f5-utils namespace are Ready."
-
-echo ""
-echo "waiting for f5-tmm daemonset be ready ..."
-until [ "$(kubectl get daemonset f5-tmm -o jsonpath='{.status.numberReady}')" = "$(kubectl get daemonset f5-tmm -o jsonpath='{.status.desiredNumberScheduled}')" ]; do
-  echo "Waiting for f5-tmm DaemonSet to be ready..."
-  sleep 5
-done
-echo "f5-tmm DaemonSet is ready."
-
-
-echo ""
-echo "Installing vlan (selfIP) ..."
-kubectl apply -f resources/vlans.yaml
-
-echo ""
-echo "Install zebos bgp config  ..."
-# BGP ConfigMap that includes ZebOS config
-kubectl apply -f resources/zebos-bgp-cm.yaml
-
-echo ""
-echo "Deployment completed in $SECONDS secs"
+echo "Deployment completed in $SECONDS secs."
+echo "Please run ./add-dpu1-node.sh and/or ./add-host-tmm.sh"
