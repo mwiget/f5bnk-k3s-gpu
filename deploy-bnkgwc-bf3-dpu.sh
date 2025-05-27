@@ -20,15 +20,17 @@ ssh ubuntu@$DPU_IP "curl -sfL https://get.k3s.io | K3S_URL=https://${MASTER_IP}:
 
 kubectl label nodes dpu1 nvidia.com/gpu.deploy.operands=false
 
-node=dpu1
+node=dpu1     # HACK name of the bf3 dpu worker node
+host=rome1    # HACK name of the host node hosting the dpu
 echo "check cluster node $hostname ..."
 kubectl get node $node -o wide
 
 echo ""
 echo "label and annotate node $node to deploy TMM via operator"
-IP=$(ip -br a |grep 198.18.100|cut -d/ -f1 | awk '{print $3}')  # HACK
+#IP=$(ip -br a |grep 198.18.100|cut -d/ -f1 | awk '{print $3}')  # HACK
+#kubectl annotate --overwrite node $node "k8s.ovn.org/node-primary-ifaddr={\"ipv4\":\"$IP\"}"
+kubectl annotate --overwrite node $host 'k8s.ovn.org/node-primary-ifaddr={"ipv4":"198.18.100.62"}'
 kubectl label node $node app=f5-tmm || true
-kubectl annotate --overwrite node $node "k8s.ovn.org/node-primary-ifaddr={\"ipv4\":\"$IP\"}"
 
 echo ""
 echo "Install BIG-IP Next for Kubernetes BNKGatewayClass for host TMM ..."
