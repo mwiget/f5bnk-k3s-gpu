@@ -28,7 +28,7 @@ echo ""
 echo "label and annotate node $node to deploy TMM via operator"
 IP=$(ip route get 1 | awk '{print $7}')
 kubectl label node $node app=f5-tmm || true
-kubectl annotate --overwrite node $node 'k8s.ovn.org/node-primary-ifaddr={"ipv4":"$IP"}'
+kubectl annotate --overwrite node $node "k8s.ovn.org/node-primary-ifaddr={\"ipv4\":\"$IP\"}"
 
 echo ""
 echo "Install BIG-IP Next for Kubernetes BNKGatewayClass for host TMM ..."

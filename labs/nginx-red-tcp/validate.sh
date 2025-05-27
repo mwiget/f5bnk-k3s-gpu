@@ -43,5 +43,13 @@ echo ""
 curl -Is http://$ip
 
 echo ""
+echo "Downloading 512kb payload directly from $cip ..."
+set -x
+curl -s -w "\nTime: %{time_total}s\nSpeed: %{speed_download} bytes/s\n" -o /dev/null http://$cip/test/512kb
+set +x
+
+echo ""
 echo "Downloading 512kb payload from $ip ..."
-curl -s -w "\nTime: %{time_total}s\nSpeed: %{speed_download} bytes/s\n" -o /dev/null http://198.19.19.50/test/512kb
+set -x
+curl -s -w "\nTime: %{time_total}s\nSpeed: %{speed_download} bytes/s\n" -o /dev/null http://$ip/test/512kb
+set +x
