@@ -6,6 +6,12 @@ network:
       enp193s0f1:
         dhcp4: false
         dhcp6: false
+      enp193s0f2:
+        dhcp4: false
+        dhcp6: false
+      enp193s0f3:
+        dhcp4: false
+        dhcp6: false
     bridges:
       br0:
         interfaces: [enp193s0f0]

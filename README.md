@@ -31,7 +31,7 @@ xeth0        sock,                sock            Yes
 0000:c1:02.5 mlxvf5, sock, dpdk,  dpdk            Yes   
 ```
 
-Example when using TMM on host in demo mode via linux bridges:
+Example when using TMM on host in demo mode via linux bridges and macvlan:
 
 ```
 $ ./check-tmm-drivers.sh 

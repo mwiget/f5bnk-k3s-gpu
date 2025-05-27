@@ -1,11 +1,12 @@
 apiVersion: "k8s.cni.cncf.io/v1"
 kind: NetworkAttachmentDefinition
 metadata:
-  name: bridge-br0-p0
+  name: macvlan-p0
 spec:
   config: '{
-    "type": "bridge",
-    "bridge": "br0",
+    "type": "macvlan",
+    "master": "enp193s0f2",
+    "mode": "bridge",
     "ipam": {
       "type": "static",
       "addresses": [
@@ -17,17 +18,18 @@ spec:
       "routes": []
     },
     "logLevel": "debug",
-    "logFile": "/var/log/sf/bridge-br0-p0.log"
+    "logFile": "/var/log/sf/macvlan-p0.log"
   }'
 ---
 apiVersion: "k8s.cni.cncf.io/v1"
 kind: NetworkAttachmentDefinition
 metadata:
-  name: bridge-br1-p1
+  name: macvlan-p1
 spec:
   config: '{
-    "type": "bridge",
-    "bridge": "br1",
+    "type": "macvlan",
+    "master": "enp193s0f3",
+    "mode": "bridge",
     "ipam": {
       "type": "static",
       "addresses": [
@@ -39,5 +41,5 @@ spec:
       "routes": []
     },
     "logLevel": "debug",
-    "logFile": "/var/log/sf/bridge-br1-p1.log"
+    "logFile": "/var/log/sf/macvlan-p1.log"
   }'
