@@ -94,7 +94,7 @@ helm install prometheus prometheus-community/kube-prometheus-stack \
    --create-namespace --namespace monitoring \
    --values resources/prometheus-values.yaml || echo "already installed"
 
-kubectl wait --for=condition=Ready pods --all -n monitoring
+kubectl wait --for=condition=Ready pods --all -n monitoring --timeout 300s
 
 kubectl apply -f resources/grafana-service.yaml -n monitoring
 
