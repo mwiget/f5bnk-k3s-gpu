@@ -81,9 +81,9 @@ data:
                 "selectors": {
                     "vendors": ["8086"],
                     "devices": ["1889"],
-                    "drivers": ["iavf"],
+                    "drivers": ["vfio-pci"],
                     "pfNames": ["enp129s0f0"],
-                    "isRdma": false
+                    "needVhostNet": true
                 }
             },
             {
@@ -92,9 +92,9 @@ data:
                 "selectors": {
                     "vendors": ["8086"],
                     "devices": ["1889"],
-                    "drivers": ["iavf"],
+                    "drivers": ["vfio-pci"],
                     "pfNames": ["enp129s0f1"],
-                    "isRdma": false
+                    "needVhostNet": true
                 }
             },
             {
@@ -103,6 +103,7 @@ data:
                "selectors": {
                   "vendors": ["15b3"],
                   "devices": ["101e"],
+                  "isRdma": true,
                   "pfNames": ["enp193s0f0np0"]
                 }
             },
@@ -112,6 +113,7 @@ data:
                "selectors": {
                   "vendors": ["15b3"],
                   "devices": ["101e"],
+                  "isRdma": true,
                   "pfNames": ["enp193s0f1np1"]
                 }
             },
