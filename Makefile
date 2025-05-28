@@ -30,6 +30,7 @@ bnk:
 
 bnkgatewayclass-bf3-dpu:
 	./delete-bnkgwc.sh
+	./add-dpu1-node.sh
 	./deploy-bnkgwc-bf3-dpu.sh
 
 bnkgatewayclass-bf3-host:
