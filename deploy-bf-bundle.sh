@@ -9,3 +9,4 @@ fi
 BFB_CONFIG=$(ls bfb_config_*.conf | head -1)
 echo "installing image using config $BFB_CONFIG ..."
 sudo bfb-install --rshim rshim0 --config bfb_config_*.conf --bfb $BFB_IMAGE
+ssh-keygen -f "/home/mwiget/.ssh/known_hosts" -R "192.168.100.2"
