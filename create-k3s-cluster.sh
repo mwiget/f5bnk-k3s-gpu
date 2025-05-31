@@ -46,8 +46,9 @@ kubectl apply -f resources/calico-custom-resources.yaml
 
 echo ""
 echo "Waiting for Kubernetes control plane to get ready ..."
-sleep 10
-kubectl wait --for=condition=Ready pods --all -n calico-system  --timeout 300s
+until kubectl wait --for=condition=Ready pods --all -n calico-system  --timeout 300s; do
+  sleep 5
+done
 
 # Multus and SRIOV
 kubectl apply -f resources/multus.yaml
