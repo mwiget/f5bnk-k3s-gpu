@@ -11,7 +11,6 @@ K3S_TOKEN=$(sudo cat /var/lib/rancher/k3s/server/node-token)
 : "${MASTER_IP:=$(ip -4 -o addr show $(ip r | awk '/^default/ {print $5}') | awk '{print $4}' | cut -d/ -f1)}"
 echo "Using MASTER_IP $MASTER_IP ..."
 
-ssh-keygen -f "/home/mwiget/.ssh/known_hosts" -R "192.168.100.2" || true
 ssh-copy-id ubuntu@$DPU_IP
 
 scp -p /etc/k3s-resolv.conf ubuntu@$DPU_IP:
