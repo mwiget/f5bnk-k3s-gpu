@@ -4,7 +4,9 @@ network:
   ethernets:
     # external
     enp193s0f0np0:
-      virtual-function-count: 8
+      virtual-function-count: 4
+        #enp193s0f0v1:
+        #      link: enp193s0f1np1
       dhcp4: no
       dhcp6: no
       addresses:
@@ -12,9 +14,9 @@ network:
     # internal
     enp193s0f1np1:
       dhcp4: no
-      virtual-function-count: 8
-        #    enp193s0f1v0:
-        #      link: enp193s0f1np1
+      virtual-function-count: 4
+        #    enp193s0f1v1:
+        #      link: enp193s0f0np0
       dhcp4: no
       dhcp6: no
       addresses:

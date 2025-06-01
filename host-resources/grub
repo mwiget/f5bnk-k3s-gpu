@@ -7,7 +7,7 @@ GRUB_DEFAULT=0
 GRUB_TIMEOUT_STYLE=hidden
 GRUB_TIMEOUT=0
 GRUB_DISTRIBUTOR=`lsb_release -i -s 2> /dev/null || echo Debian`
-GRUB_CMDLINE_LINUX_DEFAULT="iommu=pt amd_iommu=on hugepagesz=1G hugepages=16 hugepagesz=2M hugepages=4096"
+GRUB_CMDLINE_LINUX_DEFAULT="amd_iommu=on iommu=pt hugepagesz=1G hugepages=16 hugepagesz=2M hugepages=16384 vfio-pci.ids=8086:1889"
 GRUB_CMDLINE_LINUX=""
 
 # Uncomment to enable BadRAM filtering, modify to suit your needs

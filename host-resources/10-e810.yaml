@@ -3,9 +3,13 @@ network:
       enp129s0f0:
         dhcp4: false
         dhcp6: false
+          #        addresses:
+          #          - 192.0.2.62/24
         virtual-function-count: 5
       enp129s0f1:
         dhcp4: false
         dhcp6: false
+          #        addresses:
+          #          - 198.18.100.62/24
         virtual-function-count: 5
     version: 2

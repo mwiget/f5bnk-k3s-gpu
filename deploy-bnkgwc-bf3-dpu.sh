@@ -57,4 +57,8 @@ kubectl exec -ti ds/f5-tmm -c debug -- ip -br a
 ./static-vip-route.sh 
 
 echo ""
+echo "kubectl get f5-spk-vlan ..."
+kubectl get f5-spk-vlan
+
+echo ""
 echo "Deployment completed in $SECONDS secs"
