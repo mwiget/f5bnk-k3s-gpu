@@ -20,5 +20,5 @@ ssh ubuntu@$DPU_IP "curl -sfL https://get.k3s.io | K3S_URL=https://${MASTER_IP}:
 
 kubectl label nodes dpu1 nvidia.com/gpu.deploy.operands=false
 
-kubectl wait --for=condition=Ready pods --all -n kube-system
-kubectl wait --for=condition=Ready pods --all -n calico-system
+kubectl wait --for=condition=Ready pods --all -n kube-system --timeout 300s
+kubectl wait --for=condition=Ready pods --all -n calico-system --timeout 300s

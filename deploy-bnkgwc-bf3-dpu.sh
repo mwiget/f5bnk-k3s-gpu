@@ -60,5 +60,7 @@ echo ""
 echo "kubectl get f5-spk-vlan ..."
 kubectl get f5-spk-vlan
 
+./check-f5-spk-vlans.sh
+
 echo ""
 echo "Deployment completed in $SECONDS secs"
