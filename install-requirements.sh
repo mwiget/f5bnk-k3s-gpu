@@ -14,7 +14,7 @@ echo "deb [signed-by=/etc/apt/trusted.gpg.d/GPG-KEY-Mellanox.pub] $DOCA_URL ./" 
 sudo apt-get update
 sudo apt-get install -y curl ca-certificates make htop btop jq tmux mosh net-tools \
   bwm-ng tcpdump snapd python3-pip unzip ipmitool nfs-kernel-server golang-go \
-  pv doca-networking
+  pv doca-networking wrk
 sudo apt autoremove -y
 
 sudo update-pciids
