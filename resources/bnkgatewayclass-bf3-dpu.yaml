@@ -15,7 +15,8 @@ spec:
       enabled: true
   certificate:
     clusterIssuer: bnk-ca-cluster-issuer
-  deploymentSize: "Small"
+      # deploymentSize: "Max"
+  deploymentSize: "Large"
   image:
     repository: "repo.f5.com/images"
     imagePullSecrets:
