@@ -19,10 +19,9 @@ ssh ubuntu@$DPU_IP "sudo mv k3s-resolv.conf /etc/"
 ssh ubuntu@$DPU_IP "curl -sfL https://get.k3s.io | K3S_URL=https://${MASTER_IP}:6443 K3S_TOKEN=${K3S_TOKEN} INSTALL_K3S_EXEC='--resolv-conf=/etc/k3s-resolv.conf' sh -"
 
 for node in $(kubectl get nodes | grep ' Ready '| awk '{print $1}' | grep 'dpu'); do
-  echo kubectl taint node $node dpu=true:NoSchedule || true
+  kubectl taint node $node dpu=true:NoSchedule || true
+  kubectl label nodes $node nvidia.com/gpu.deploy.operands=false
 done
-
-kubectl label nodes dpu1 nvidia.com/gpu.deploy.operands=false
 
 kubectl wait --for=condition=Ready pods --all -n kube-system --timeout 300s
 kubectl wait --for=condition=Ready pods --all -n calico-system --timeout 300s
