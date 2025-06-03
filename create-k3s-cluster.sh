@@ -16,8 +16,8 @@ echo "Using MASTER_IP $MASTER_IP ..."
 
 echo "creating /etc/k3s-resolv.conf ..."
 sudo tee /etc/k3s-resolv.conf >/dev/null <<EOF
-nameserver 8.8.8.8
 nameserver 1.1.1.1
+nameserver 8.8.8.8
 EOF
 
 echo ""
