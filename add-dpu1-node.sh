@@ -28,8 +28,17 @@ until kubectl get node $DPU_NAME &>/dev/null; do
 done
 echo "Node $DPU_NAME is now registered."
 
-kubectl taint node $DPU_NAME dpu=true:NoSchedule
+echo ""
+echo "add tolerations for sriov-device-plugin NoSchedule .."
+kubectl patch daemonset kube-sriov-device-plugin -n kube-system \
+  --type='json' \
+  -p='[{"op": "add", "path": "/spec/template/spec/tolerations", "value": [{"effect": "NoSchedule", "operator": "Exists"}]}]'
+
+kubectl taint node $DPU_NAME dpu=true:NoSchedule || true
 kubectl label nodes $DPU_NAME nvidia.com/gpu.deploy.operands=false
 
-kubectl wait --for=condition=Ready pods --all -n kube-system --timeout 300s
+until kubectl wait --for=condition=Ready pods --all -n kube-system --timeout 30s; do
+  echo "waiting for all pods in kube-system to be ready ..."
+  sleep 5
+done
 kubectl wait --for=condition=Ready pods --all -n calico-system --timeout 300s
