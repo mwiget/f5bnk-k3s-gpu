@@ -76,7 +76,8 @@ kubectl get ns gpu-operator || helm install --wait --generate-name \
     --version=v24.9.2 \
      --set toolkit.env[0].name=CONTAINERD_SOCKET \
      --set toolkit.env[0].value=/run/k3s/containerd/containerd.sock \
-     --set driver.enabled=false
+     --set driver.enabled=false \
+     --set toolkit.enabled=true
 
 echo ""
 echo "Install cert-manager and clustr issuer to manage pod-to-pod certs ..."
